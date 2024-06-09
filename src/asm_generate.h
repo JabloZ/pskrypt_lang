@@ -2,5 +2,5 @@
 #define ASM_GENERATE_H
 #include "common.h"
 #pragma once
-void generate_assembly(struct Token *tokens,int size_tok);
+void generate_assembly(struct Node* programNode);
 #endif

@@ -11,6 +11,7 @@
 
 struct Token* tokens;
 int cur_tok;
+int node_count;
 struct Var_adr{
     char *name[32];
     int asm_address;
@@ -36,6 +37,7 @@ struct Token{
 }; 
 
 typedef enum{
+    null_node,
     return_node,
     int_node,
     var_node,
@@ -58,4 +60,4 @@ typedef struct Node{
     struct Node* nextNode;
 }Node;
 
-#endif
+#endif;

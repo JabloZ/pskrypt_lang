@@ -74,10 +74,9 @@ struct Node* parseKeywords(){
         if (strcmp(token->name,"int")==0){
             return variableStatement();
         }
-        
+        else
         {
             struct Token* token=currentToken();
-            printf("\nNIEUZYWANE TOKENY: %s}",token->name);
             struct Node* node=malloc(sizeof(struct Node));
             node->type=int_node;
             node->data.intValue=10;
@@ -94,12 +93,13 @@ struct Node* parser(struct Token *tokens){
 
     struct Node* program=NULL;
     struct Node* current=NULL;
-    
+    node_count=0;
     while (token->type!=0){
         
         struct Node* kw=parseKeywords();
         printf("%d- to kw\n");
         if (kw){
+            node_count++;
             if (program==NULL){
                 program=kw;
                 current=kw;
@@ -113,7 +113,7 @@ struct Node* parser(struct Token *tokens){
         token=nextToken();
 
     }
-
+    printf("+%d",node_count);
     return program;
 }
 

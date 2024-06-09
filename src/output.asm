@@ -1,9 +1,12 @@
-global _main
-_main:
+global _start
+_start:
 	push rbp
 	mov rbp, rsp
-	mov	DWORD PTR -4[rbp], 
-	mov	DWORD PTR -8[rbp], 
 	mov rax, 60
-	mov rdi, 0
-	syscall	
+	mov rdi, 4
+	syscall
+section .data
+	b dd 24
+	c dd 25
+	d dd 37
+	

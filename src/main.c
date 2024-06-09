@@ -10,7 +10,7 @@ extern int errno;
 #include "parser.h"
 
 struct Token* tokenize(char* buf, size_t buf_size);
-void generate_assembly(struct Token *tokens,int size_tok);
+void generate_assembly(struct Node* programNode);
 struct Node* parser(struct Token *tokens);
 
 
@@ -58,7 +58,10 @@ int main(int argc, char* argv[]){
         tokens_length++;
     }
     
-    //generate_assembly(tokens,tokens_length); //causes segfault for buffer for some reason ALE CHYBA DLATEGO ZE TOKENS PUSTE JEST
+    generate_assembly(program); //causes segfault for buffer for some reason ALE CHYBA DLATEGO ZE TOKENS PUSTE JEST
+    system("nasm -felf64 output.asm -o output.asm.o");
+    system("ld output.o -o output");
+    
     return 0;
 
 
