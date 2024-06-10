@@ -59,8 +59,12 @@ int main(int argc, char* argv[]){
     }
     
     generate_assembly(program); //causes segfault for buffer for some reason ALE CHYBA DLATEGO ZE TOKENS PUSTE JEST
-    system("nasm -felf64 output.asm -o output.asm.o");
+    
+    system("cat output.asm");
+    system("nasm -f elf64 output.asm -o output.o");
+    
     system("ld output.o -o output");
+     
     
     return 0;
 

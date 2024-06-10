@@ -11,8 +11,8 @@ void generate_assembly(struct Node *programNode){
     fptr=fopen("output.asm","w+");
     fptr_var=fopen("asm_vars.asm","w+");
     fprintf(fptr_var,"section .data\n");
-
-    fprintf(fptr,"global _start\n");
+    fprintf(fptr,"section .text\n");
+    fprintf(fptr,"\tglobal _start\n");
     fprintf(fptr,"_start:\n");
     fprintf(fptr,"\tpush rbp\n");
     fprintf(fptr,"\tmov rbp, rsp\n");
@@ -46,4 +46,5 @@ void generate_assembly(struct Node *programNode){
         }
     }*/
     fprintf(fptr,"\t");
+    fclose(fptr);
 }

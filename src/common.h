@@ -56,6 +56,11 @@ typedef struct Node{
         struct {
             struct Node* returnValue;
         } returnDecl;
+        struct {
+            struct Node* left;
+            struct Node* right;
+            char* op[32]; //mozliwy segfault
+        } binaryOp;
     } data;
     struct Node* nextNode;
 }Node;
