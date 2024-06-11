@@ -25,7 +25,7 @@ struct Node* createNodeInt(int val){
         memset(node, 0, sizeof(struct Node));
         node->type=int_node;
         node->data.intValue=val;
-       
+
         node->nextNode=NULL;
         return node;
     };
@@ -56,11 +56,40 @@ struct Node* createNodeBinOp(char* op,struct Node* left_n,struct Node* right_n){
 }
 
 
+int* variable_exists(char* token_name){
+    //int* arr=malloc(sizeof(int)*2);
+    int* arr=malloc(8);
+    arr[0]=-1;
+    arr[1]=-1;
+    struct Node* node_checked=program;
+    while(node_checked!=NULL){
+        if (strcmp(node_checked->data.varDecl.varName,token_name)==0){
+            arr[0]=1;
+            arr[1]=node_checked->data.varDecl.varValue;
+            return arr;
+        }
+        node_checked=node_checked->nextNode;
+
+    }
+    
+    return arr;
+}
+
 struct Node* numberStatement(){
         struct Token* token=currentToken();
+        
         if (token->type==number){
             return createNodeInt(atoi(token->name));
         }
+        if (token->type==_str){
+            int* res;
+            res=variable_exists(token->name);
+
+            if (res[0]!=-1){
+                return createNodeInt(res[1]);
+            }
+        }
+        exit(EXIT_FAILURE);    
     };
 struct Node* variableStatement(){
         struct Token* token=nextToken();
@@ -86,7 +115,6 @@ struct Node* binaryOperation(){
         if (left->type==int_node){
             token=nextToken();
            
-            
             if (token->type==add){
                 strcpy(op,token->name);
              
@@ -123,7 +151,6 @@ struct Node* parseKeywords(){
             return variableStatement();
         }
         if (strcmp(token->name,"+")==0){
-          
             cur_tok--;
             return binaryOperation();
         }
@@ -150,7 +177,6 @@ struct Node* parser(struct Token *tokens){
    
     struct Token* token=currentToken();
 
-    struct Node* program=NULL;
     struct Node* current=NULL;
     node_count=0;
     while (token->type!=0){

@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <stddef.h> // Dla size_t
 
+struct Node* program;
 struct Token* tokens;
 int cur_tok;
 int node_count;

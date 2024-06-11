@@ -29,6 +29,14 @@ void generate_assembly(struct Node *programNode){
             fprintf(fptr,"\tmov rdi, %d\n",(current_node->data.returnDecl.returnValue));
             fprintf(fptr,"\tsyscall\n");
         }
+        if (current_node->type==binary_op_node){
+            if (strcmp(current_node->data.binaryOp.op,"+")==0){
+                
+                fprintf(fptr,"\tmov rax, %d\n",current_node->data.binaryOp.left->data.intValue);
+                fprintf(fptr,"\tadd rax, %d\n",current_node->data.binaryOp.right->data.intValue);
+                fprintf(fptr,"\t\n");
+            }
+        }
         current_node=current_node->nextNode;
     }
     fprintf(fptr, variables);
