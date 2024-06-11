@@ -54,25 +54,20 @@ struct Node* createNodeBinOp(char* op,struct Node* left_n,struct Node* right_n){
     return node;
        
 }
+struct Node* variable_exists(char* token_name){ // to replace with map
 
-
-int* variable_exists(char* token_name){
-    //int* arr=malloc(sizeof(int)*2);
-    int* arr=malloc(8);
-    arr[0]=-1;
-    arr[1]=-1;
+    int* returned_node=malloc(sizeof(int*));
     struct Node* node_checked=program;
     while(node_checked!=NULL){
         if (strcmp(node_checked->data.varDecl.varName,token_name)==0){
-            arr[0]=1;
-            arr[1]=node_checked->data.varDecl.varValue;
-            return arr;
+            
+            return node_checked;
         }
         node_checked=node_checked->nextNode;
 
     }
     
-    return arr;
+    return returned_node;
 }
 
 struct Node* numberStatement(){
@@ -82,11 +77,12 @@ struct Node* numberStatement(){
             return createNodeInt(atoi(token->name));
         }
         if (token->type==_str){
-            int* res;
-            res=variable_exists(token->name);
 
-            if (res[0]!=-1){
-                return createNodeInt(res[1]);
+            struct Node* res;
+            res=variable_exists(token->name); //tu segfault narazie
+        
+            if (res!=NULL){
+                return res;
             }
         }
         exit(EXIT_FAILURE);    
@@ -95,15 +91,8 @@ struct Node* variableStatement(){
         struct Token* token=nextToken();
         char name[32]="";
         strcpy(name,token->name);
-        if (token->type!=_str){
-            exit(EXIT_FAILURE);
-        }
-        token=nextToken();
-        if (token->type==equ){
-            token=nextToken();
-            struct Node* value=numberStatement();
-            return createNodeVariable(name, value);
-        }
+        struct Node* node_int=createNodeInt(0);
+        return createNodeVariable(name, node_int);
         
     };
 
@@ -112,15 +101,18 @@ struct Node* binaryOperation(){
         char op[32]="";
         
         struct Node* left=numberStatement();
-        if (left->type==int_node){
-            token=nextToken();
-           
-            if (token->type==add){
+        if (left->type==int_node || left->type==var_node){
+            
+            token=nextToken();  
+          
+            if (token->type==add || token->type==equ || token->type==sub){
                 strcpy(op,token->name);
-             
+              
                 token=nextToken();
                 struct Node* right=numberStatement();
-                if (right->type==int_node){
+              
+                if (right->type==int_node || right->type==var_node){
+                  
                     return createNodeBinOp(op,left,right);
                 }
                 
@@ -134,7 +126,13 @@ struct Node* binaryOperation(){
         
         
 }
-
+struct Node* node_semi(){
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    node->type=semi_node;
+    node->nextNode=NULL;
+    node->data.intValue==0;
+    return node;
+}
 struct Node* returnStatement(){
         struct Token* token=nextToken();
         struct Node* value = numberStatement();
@@ -143,20 +141,23 @@ struct Node* returnStatement(){
 
 struct Node* parseKeywords(){
         struct Token* token=currentToken();
-       
+        if (strcmp(token->name,";")==0){
+            return node_semi();
+        }
         if (strcmp(token->name,"return")==0){
             return returnStatement();
         }
         if (strcmp(token->name,"int")==0){
             return variableStatement();
         }
-        if (strcmp(token->name,"+")==0){
+        if (token->type==number){
+            return createNodeInt(atoi(token->name));}
+        if (strcmp(token->name,"+")==0 || strcmp(token->name,"=")==0 || strcmp(token->name,"-")==0){
             cur_tok--;
             return binaryOperation();
         }
         
         {
-            struct Token* token=currentToken();
             struct Node* node=malloc(sizeof(struct Node));
             node->type=null_node;
             node->nextNode=NULL;
@@ -169,7 +170,7 @@ void resetNode(struct Node* node) {
     if (node != NULL) {
         
         memset(&node->data, 0, sizeof(node->data));
-        printf("RESET: %d",node->type);
+        
     }
 }
  
@@ -221,7 +222,7 @@ void print_all(struct Node* node){
             printf("\nW PRINTALL: l: %d r: %d op: %s",node->data.binaryOp.left->data.intValue, node->data.binaryOp.right->data.intValue, node->data.binaryOp.op);
             break;
         case int_node:
-            printf("\n int");
+            printf("\n int: %d",node->data.intValue);
             break;
     }
     if (node->nextNode!=NULL){

@@ -1,4 +1,4 @@
 section .data
-	b dd 24
-	c dd 25
-	d dd 37
+	b dd 0
+	d dd 0
+	c dd 0

@@ -13,6 +13,11 @@ struct Node* program;
 struct Token* tokens;
 int cur_tok;
 int node_count;
+char variables[1000];
+char variables_d[100][32]; // i should malloc that nstead of taking so much memory
+char var_decl[1000];
+char changed_var[32];
+bool can_change;
 struct Var_adr{
     char *name[32];
     int asm_address;
@@ -42,7 +47,8 @@ typedef enum{
     return_node,
     int_node,
     var_node,
-    binary_op_node
+    binary_op_node,
+    semi_node
 } nodeType;
 
 typedef struct Node{
