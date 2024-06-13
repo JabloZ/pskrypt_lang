@@ -3,4 +3,6 @@
 #include "common.h"
 
 struct Node* parser(struct Token *tokens);
+struct Node* binaryOperation();
+
 #endif

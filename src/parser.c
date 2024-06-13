@@ -7,7 +7,17 @@ struct Token* nextToken(){
     cur_tok++;
     return &tokens[cur_tok];
 };
-
+struct Node* createNodeEndLoop(){
+        struct Token* token=currentToken();
+        struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+        memset(node, 0, sizeof(struct Node));
+        node->type=end_loop_node;
+        recent_loop--;
+        node->data.endLoopDecl.loopNum=recent_loop;
+        
+        node->nextNode=NULL;
+        return node;
+}
 struct Node* createNodeReturn(struct Node* returnVal){
         struct Token* token=currentToken();
         struct Node* node = (struct Node*)malloc(sizeof(struct Node));
@@ -54,6 +64,22 @@ struct Node* createNodeBinOp(char* op,struct Node* left_n,struct Node* right_n){
     return node;
        
 }
+struct Node* createWhileLoop(struct Node* first_n, struct Node* second_n, char* name_ins){
+    
+    struct Token* token=currentToken();
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    memset(node, 0, sizeof(struct Node));
+    node->data.whileDecl.loopNum=recent_loop;
+    node->type=while_node;
+    node->data.whileDecl.first=first_n;
+    node->data.whileDecl.second=second_n;
+    recent_loop++;
+    strcpy(node->data.whileDecl.instruction,name_ins);
+    node->nextNode=NULL;
+    return node;
+}
+
+
 struct Node* variable_exists(char* token_name){ // to replace with map
 
     int* returned_node=malloc(sizeof(int*));
@@ -99,20 +125,17 @@ struct Node* variableStatement(){
 struct Node* binaryOperation(){
         struct Token* token=currentToken();
         char op[32]="";
-        
         struct Node* left=numberStatement();
         if (left->type==int_node || left->type==var_node){
-            
             token=nextToken();  
-          
-            if (token->type==add || token->type==equ || token->type==sub){
+            if (token->type==add || token->type==equ || token->type==sub || token->type==mult || token->type==_div){
                 strcpy(op,token->name);
-              
                 token=nextToken();
+               
                 struct Node* right=numberStatement();
-              
+                
                 if (right->type==int_node || right->type==var_node){
-                  
+                    
                     return createNodeBinOp(op,left,right);
                 }
                 
@@ -123,9 +146,27 @@ struct Node* binaryOperation(){
             node->type=null_node;
             node->nextNode=NULL;
             return node;
-        
-        
 }
+struct Node* while_loop(){
+    struct Token* token=nextToken();
+    struct Node* num_or_var=numberStatement();
+    
+        if (num_or_var->type==int_node || num_or_var->type==var_node){
+            token=nextToken();
+            if (strcmp(token->name,"greater")==0 || strcmp(token->name,"greater_equal")==0 || strcmp(token->name,"lesser")==0 || strcmp(token->name,"lesser_equal")==0){
+                char ins_name[32];
+                strcpy(ins_name,token->name);
+                token=nextToken();
+                struct Node* num_or_var_second=numberStatement();
+                if (num_or_var->type==int_node || num_or_var->type==var_node){
+                    return createWhileLoop(num_or_var, num_or_var_second, ins_name);
+                }
+
+            }
+        }
+    
+}
+
 struct Node* node_semi(){
     struct Node* node = (struct Node*)malloc(sizeof(struct Node));
     node->type=semi_node;
@@ -141,18 +182,24 @@ struct Node* returnStatement(){
 
 struct Node* parseKeywords(){
         struct Token* token=currentToken();
+        if (strcmp(token->name,"end_loop")==0){
+            return createNodeEndLoop();
+        }
+        if (strcmp(token->name,"while")==0){
+            return while_loop();
+        }
         if (strcmp(token->name,";")==0){
             return node_semi();
         }
         if (strcmp(token->name,"return")==0){
             return returnStatement();
         }
-        if (strcmp(token->name,"int")==0){
+        if (strcmp(token->name,"var")==0){
             return variableStatement();
         }
         if (token->type==number){
             return createNodeInt(atoi(token->name));}
-        if (strcmp(token->name,"+")==0 || strcmp(token->name,"=")==0 || strcmp(token->name,"-")==0){
+        if (strcmp(token->name,"+")==0 || strcmp(token->name,"=")==0 || strcmp(token->name,"-")==0  ||  strcmp(token->name,"*")==0 ||  strcmp(token->name,"/")==0){
             cur_tok--;
             return binaryOperation();
         }
@@ -177,7 +224,7 @@ void resetNode(struct Node* node) {
 struct Node* parser(struct Token *tokens){
    
     struct Token* token=currentToken();
-
+    recent_loop=0;
     struct Node* current=NULL;
     node_count=0;
     while (token->type!=0){

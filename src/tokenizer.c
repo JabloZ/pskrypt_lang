@@ -1,5 +1,7 @@
 #include "tokenizer.h"
+bool is_keyword(char *name){
 
+}
 struct Token *tokenize(char* buf, size_t buf_size){
     cur_tok=0;
     bool wait_for_value=false;
@@ -10,10 +12,10 @@ struct Token *tokenize(char* buf, size_t buf_size){
     int digit_buf_i=0;
     char kw_buf[32]="";
     int kw_buf_i=0;
-    
+    char keywords[6][15]={"while","greater","greater_equal","lesser","lesser_equal","end_loop"};
     for (int i=0; i<buf_size; i++){
        
-        while (isalpha(buf[i])){
+        while (isalpha(buf[i]) || buf[i]=='_'){
             kw_buf[kw_buf_i]=buf[i];
             kw_buf_i++;
             i++;
@@ -32,7 +34,7 @@ struct Token *tokenize(char* buf, size_t buf_size){
             memset(digit_buf,0,strlen(digit_buf));
             token_i++;
         }
-        if (strcmp(kw_buf,"int")==0 && buf[i]==' '){
+        if (strcmp(kw_buf,"var")==0 && buf[i]==' '){
             tokens[token_i].type=int_lit;
             strcpy(tokens[token_i].name,kw_buf);
             memset(kw_buf,0,strlen(kw_buf));
@@ -48,6 +50,13 @@ struct Token *tokenize(char* buf, size_t buf_size){
             token_i++;
         }
         if (strcmp(kw_buf,"")!=0){
+            //for (int i=0; i<sizeof())
+            for (int i=0; i<6; i++){
+                if (strcmp(kw_buf,keywords[i])){
+                        tokens[token_i].type=keyword_tok;
+                        strcpy(tokens[token_i].name,kw_buf);
+                }
+            }
             tokens[token_i].type=_str;
             strcpy(tokens[token_i].name,kw_buf);
             memset(kw_buf,0,strlen(kw_buf));
@@ -75,6 +84,17 @@ struct Token *tokenize(char* buf, size_t buf_size){
                 tokens[token_i].name[0]=buf[i];
                 token_i++;
         }
+        if (buf[i]=='*'){
+                tokens[token_i].type=mult;
+                tokens[token_i].name[0]=buf[i];
+                token_i++;
+        }
+        if (buf[i]=='/'){
+                tokens[token_i].type=_div;
+                tokens[token_i].name[0]=buf[i];
+                token_i++;
+        }
+        
       
         digit_buf_i=0;
         memset(digit_buf,0,strlen(digit_buf));
