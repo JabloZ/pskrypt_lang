@@ -7,7 +7,7 @@ Running this language is only supported for linux, and requires CMake, NASM and 
 ```
 1. git clone https://github.com/JabloZ/pskrypt_lang
 2. create directory build in pskrypt_lang (mkdir build)
-3. cmake -s . -b build
+3. cmake -S . -B build
 4. cmake --build build
 5. ./{pskrypt-executable-file} {filename.ps} (without brackets)
 ```
