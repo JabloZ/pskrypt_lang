@@ -1,12 +1,26 @@
 <h2>PSkrypt - simple programming language</h2>
 Simple programming language that has while loops(also nested), variable declarations(only integer ones), if statements and arithmetic operations. 
+<h4>Requirements and support</h4>
+Running this language is only supported for linux, and requires CMake, NASM and LD
+<h3>Running the language:</h3>
 
-<h4>Running the program:</h4>
-./{myprogram-executable-file} {filename.ps} (without brackets)
+```
+1. git clone https://github.com/JabloZ/pskrypt_lang
+2. create directory build in pskrypt_lang (mkdir build)
+3. cmake -s . -b build
+4. cmake --build build
+5. ./{pskrypt-executable-file} {filename.ps} (without brackets)
+```
 
+Example:<br>
+./build/pskrypt_lang example.ps<br>
+./output<br>
+echo $? //should return 88 for example file
+<br>
+<br>
 <h3>Language keywords:</h3>
 <br>
-<br>
+
 var - declares variable, also used to change variable value
   sample usage: 
   <br>
