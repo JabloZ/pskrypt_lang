@@ -4,7 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/root/pskrypt/main.c" "/root/pskrypt/build/CMakeFiles/myprogram.dir/main.c.o"
+  "/root/pskrypt/src/asm_generate.c" "/root/pskrypt/build/CMakeFiles/myprogram.dir/src/asm_generate.c.o"
+  "/root/pskrypt/src/main.c" "/root/pskrypt/build/CMakeFiles/myprogram.dir/src/main.c.o"
+  "/root/pskrypt/src/parser.c" "/root/pskrypt/build/CMakeFiles/myprogram.dir/src/parser.c.o"
+  "/root/pskrypt/src/tokenizer.c" "/root/pskrypt/build/CMakeFiles/myprogram.dir/src/tokenizer.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

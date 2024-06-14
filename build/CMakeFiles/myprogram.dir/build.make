@@ -57,30 +57,75 @@ include CMakeFiles/myprogram.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/myprogram.dir/flags.make
 
-CMakeFiles/myprogram.dir/main.c.o: CMakeFiles/myprogram.dir/flags.make
-CMakeFiles/myprogram.dir/main.c.o: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/pskrypt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/myprogram.dir/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/myprogram.dir/main.c.o   -c /root/pskrypt/main.c
+CMakeFiles/myprogram.dir/src/main.c.o: CMakeFiles/myprogram.dir/flags.make
+CMakeFiles/myprogram.dir/src/main.c.o: ../src/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/pskrypt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/myprogram.dir/src/main.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/myprogram.dir/src/main.c.o   -c /root/pskrypt/src/main.c
 
-CMakeFiles/myprogram.dir/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/myprogram.dir/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/pskrypt/main.c > CMakeFiles/myprogram.dir/main.c.i
+CMakeFiles/myprogram.dir/src/main.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/myprogram.dir/src/main.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/pskrypt/src/main.c > CMakeFiles/myprogram.dir/src/main.c.i
 
-CMakeFiles/myprogram.dir/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/myprogram.dir/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/pskrypt/main.c -o CMakeFiles/myprogram.dir/main.c.s
+CMakeFiles/myprogram.dir/src/main.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/myprogram.dir/src/main.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/pskrypt/src/main.c -o CMakeFiles/myprogram.dir/src/main.c.s
+
+CMakeFiles/myprogram.dir/src/tokenizer.c.o: CMakeFiles/myprogram.dir/flags.make
+CMakeFiles/myprogram.dir/src/tokenizer.c.o: ../src/tokenizer.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/pskrypt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/myprogram.dir/src/tokenizer.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/myprogram.dir/src/tokenizer.c.o   -c /root/pskrypt/src/tokenizer.c
+
+CMakeFiles/myprogram.dir/src/tokenizer.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/myprogram.dir/src/tokenizer.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/pskrypt/src/tokenizer.c > CMakeFiles/myprogram.dir/src/tokenizer.c.i
+
+CMakeFiles/myprogram.dir/src/tokenizer.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/myprogram.dir/src/tokenizer.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/pskrypt/src/tokenizer.c -o CMakeFiles/myprogram.dir/src/tokenizer.c.s
+
+CMakeFiles/myprogram.dir/src/asm_generate.c.o: CMakeFiles/myprogram.dir/flags.make
+CMakeFiles/myprogram.dir/src/asm_generate.c.o: ../src/asm_generate.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/pskrypt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/myprogram.dir/src/asm_generate.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/myprogram.dir/src/asm_generate.c.o   -c /root/pskrypt/src/asm_generate.c
+
+CMakeFiles/myprogram.dir/src/asm_generate.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/myprogram.dir/src/asm_generate.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/pskrypt/src/asm_generate.c > CMakeFiles/myprogram.dir/src/asm_generate.c.i
+
+CMakeFiles/myprogram.dir/src/asm_generate.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/myprogram.dir/src/asm_generate.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/pskrypt/src/asm_generate.c -o CMakeFiles/myprogram.dir/src/asm_generate.c.s
+
+CMakeFiles/myprogram.dir/src/parser.c.o: CMakeFiles/myprogram.dir/flags.make
+CMakeFiles/myprogram.dir/src/parser.c.o: ../src/parser.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/pskrypt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/myprogram.dir/src/parser.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/myprogram.dir/src/parser.c.o   -c /root/pskrypt/src/parser.c
+
+CMakeFiles/myprogram.dir/src/parser.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/myprogram.dir/src/parser.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/pskrypt/src/parser.c > CMakeFiles/myprogram.dir/src/parser.c.i
+
+CMakeFiles/myprogram.dir/src/parser.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/myprogram.dir/src/parser.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/pskrypt/src/parser.c -o CMakeFiles/myprogram.dir/src/parser.c.s
 
 # Object files for target myprogram
 myprogram_OBJECTS = \
-"CMakeFiles/myprogram.dir/main.c.o"
+"CMakeFiles/myprogram.dir/src/main.c.o" \
+"CMakeFiles/myprogram.dir/src/tokenizer.c.o" \
+"CMakeFiles/myprogram.dir/src/asm_generate.c.o" \
+"CMakeFiles/myprogram.dir/src/parser.c.o"
 
 # External object files for target myprogram
 myprogram_EXTERNAL_OBJECTS =
 
-myprogram: CMakeFiles/myprogram.dir/main.c.o
+myprogram: CMakeFiles/myprogram.dir/src/main.c.o
+myprogram: CMakeFiles/myprogram.dir/src/tokenizer.c.o
+myprogram: CMakeFiles/myprogram.dir/src/asm_generate.c.o
+myprogram: CMakeFiles/myprogram.dir/src/parser.c.o
 myprogram: CMakeFiles/myprogram.dir/build.make
 myprogram: CMakeFiles/myprogram.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/pskrypt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable myprogram"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/pskrypt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable myprogram"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/myprogram.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

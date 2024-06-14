@@ -123,32 +123,113 @@ myprogram/fast:
 	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/build
 .PHONY : myprogram/fast
 
-main.o: main.c.o
+src/asm_generate.o: src/asm_generate.c.o
 
-.PHONY : main.o
+.PHONY : src/asm_generate.o
 
 # target to build an object file
-main.c.o:
-	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/main.c.o
-.PHONY : main.c.o
+src/asm_generate.c.o:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/asm_generate.c.o
+.PHONY : src/asm_generate.c.o
 
-main.i: main.c.i
+src/asm_generate.i: src/asm_generate.c.i
 
-.PHONY : main.i
+.PHONY : src/asm_generate.i
 
 # target to preprocess a source file
-main.c.i:
-	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/main.c.i
-.PHONY : main.c.i
+src/asm_generate.c.i:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/asm_generate.c.i
+.PHONY : src/asm_generate.c.i
 
-main.s: main.c.s
+src/asm_generate.s: src/asm_generate.c.s
 
-.PHONY : main.s
+.PHONY : src/asm_generate.s
 
 # target to generate assembly for a file
-main.c.s:
-	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/main.c.s
-.PHONY : main.c.s
+src/asm_generate.c.s:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/asm_generate.c.s
+.PHONY : src/asm_generate.c.s
+
+src/main.o: src/main.c.o
+
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.c.o:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/main.c.o
+.PHONY : src/main.c.o
+
+src/main.i: src/main.c.i
+
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.c.i:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/main.c.i
+.PHONY : src/main.c.i
+
+src/main.s: src/main.c.s
+
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.c.s:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/main.c.s
+.PHONY : src/main.c.s
+
+src/parser.o: src/parser.c.o
+
+.PHONY : src/parser.o
+
+# target to build an object file
+src/parser.c.o:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/parser.c.o
+.PHONY : src/parser.c.o
+
+src/parser.i: src/parser.c.i
+
+.PHONY : src/parser.i
+
+# target to preprocess a source file
+src/parser.c.i:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/parser.c.i
+.PHONY : src/parser.c.i
+
+src/parser.s: src/parser.c.s
+
+.PHONY : src/parser.s
+
+# target to generate assembly for a file
+src/parser.c.s:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/parser.c.s
+.PHONY : src/parser.c.s
+
+src/tokenizer.o: src/tokenizer.c.o
+
+.PHONY : src/tokenizer.o
+
+# target to build an object file
+src/tokenizer.c.o:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/tokenizer.c.o
+.PHONY : src/tokenizer.c.o
+
+src/tokenizer.i: src/tokenizer.c.i
+
+.PHONY : src/tokenizer.i
+
+# target to preprocess a source file
+src/tokenizer.c.i:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/tokenizer.c.i
+.PHONY : src/tokenizer.c.i
+
+src/tokenizer.s: src/tokenizer.c.s
+
+.PHONY : src/tokenizer.s
+
+# target to generate assembly for a file
+src/tokenizer.c.s:
+	$(MAKE) -f CMakeFiles/myprogram.dir/build.make CMakeFiles/myprogram.dir/src/tokenizer.c.s
+.PHONY : src/tokenizer.c.s
 
 # Help Target
 help:
@@ -159,9 +240,18 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... myprogram"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... src/asm_generate.o"
+	@echo "... src/asm_generate.i"
+	@echo "... src/asm_generate.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/parser.o"
+	@echo "... src/parser.i"
+	@echo "... src/parser.s"
+	@echo "... src/tokenizer.o"
+	@echo "... src/tokenizer.i"
+	@echo "... src/tokenizer.s"
 .PHONY : help
 
 

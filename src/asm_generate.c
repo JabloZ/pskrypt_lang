@@ -18,7 +18,7 @@ int free_on_ifstack(){
         }
     }
 }
-void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fptr_var){
+void generate_assembly_recursive(struct Node *programNode, FILE *fptr){
    
     struct Node* current_node=programNode;
     while(current_node!=NULL){
@@ -30,7 +30,6 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fpt
             if(can_change==true){
                 can_change=false;
                 strcpy(changed_var,current_node->data.varDecl.varName);
-                fprintf(fptr_var,"\t%s dq %d\n",current_node->data.varDecl.varName, current_node->data.varDecl.varValue);
             }
             bool res=asm_variable_exists(current_node->data.varDecl.varName);
             if (res==false){
@@ -68,13 +67,13 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fpt
                  fprintf(fptr,"\tcmp rax, %d\n",current_node->data.whileDecl.second->data.intValue);
             }
             if (strcmp(current_node->data.whileDecl.instruction,"greater")==0){
-            fprintf(fptr,"\tjl .end%d\n",loop_i);}
-            if (strcmp(current_node->data.whileDecl.instruction,"lesser")==0){
-            fprintf(fptr,"\tjg .end%d\n",loop_i);}
-            if (strcmp(current_node->data.whileDecl.instruction,"greater_equal")==0){
             fprintf(fptr,"\tjle .end%d\n",loop_i);}
-            if (strcmp(current_node->data.whileDecl.instruction,"lesser_equal")==0){
+            if (strcmp(current_node->data.whileDecl.instruction,"lesser")==0){
             fprintf(fptr,"\tjge .end%d\n",loop_i);}
+            if (strcmp(current_node->data.whileDecl.instruction,"greater_equal")==0){
+            fprintf(fptr,"\tjl .end%d\n",loop_i);}
+            if (strcmp(current_node->data.whileDecl.instruction,"lesser_equal")==0){
+            fprintf(fptr,"\tjg .end%d\n",loop_i);}
             if (strcmp(current_node->data.whileDecl.instruction,"equal")==0){
             fprintf(fptr,"\tjne .end%d\n",loop_i);}
              if (strcmp(current_node->data.whileDecl.instruction,"not_equal")==0){
@@ -111,13 +110,13 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fpt
                  fprintf(fptr,"\tcmp rax, %d\n",current_node->data.ifDecl.second->data.intValue);
             }
             if (strcmp(current_node->data.ifDecl.instruction,"greater")==0){
-            fprintf(fptr,"\tjl .end_if%d\n",if_i);}
-            if (strcmp(current_node->data.ifDecl.instruction,"lesser")==0){
-            fprintf(fptr,"\tjg .end_if%d\n",if_i);}
-            if (strcmp(current_node->data.ifDecl.instruction,"greater_equal")==0){
             fprintf(fptr,"\tjle .end_if%d\n",if_i);}
-            if (strcmp(current_node->data.ifDecl.instruction,"lesser_equal")==0){
+            if (strcmp(current_node->data.ifDecl.instruction,"lesser")==0){
             fprintf(fptr,"\tjge .end_if%d\n",if_i);}
+            if (strcmp(current_node->data.ifDecl.instruction,"greater_equal")==0){
+            fprintf(fptr,"\tjl .end_if%d\n",if_i);}
+            if (strcmp(current_node->data.ifDecl.instruction,"lesser_equal")==0){
+            fprintf(fptr,"\tjg .end_if%d\n",if_i);}
             if (strcmp(current_node->data.ifDecl.instruction,"equal")==0){
             fprintf(fptr,"\tjne .end_if%d\n",if_i);}
              if (strcmp(current_node->data.ifDecl.instruction,"not_equal")==0){
@@ -145,7 +144,7 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fpt
         }
          if (current_node->type == binary_op_node) {
             if (strcmp(current_node->data.binaryOp.op, "=") == 0) {
-                generate_assembly_recursive(current_node->data.binaryOp.right, fptr, fptr_var);
+                generate_assembly_recursive(current_node->data.binaryOp.right, fptr);
                 fprintf(fptr, "\tmov [%s], rax\n", current_node->data.binaryOp.left->data.varDecl.varName);
             } 
             else {
@@ -156,31 +155,31 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fpt
                     fprintf(fptr, "\tpush rax\n");
                      
                 if (strcmp(current_node->data.binaryOp.op, "+") == 0) {
-                    generate_assembly_recursive(current_node->data.binaryOp.right, fptr, fptr_var);                    
+                    generate_assembly_recursive(current_node->data.binaryOp.right, fptr);                    
                     fprintf(fptr, "\tpop rbx\n");
                     fprintf(fptr, "\tadd rax, rbx\n");
                     fprintf(fptr, "\tmov [%s], rax\n",changed_var);
                 }
                  if (strcmp(current_node->data.binaryOp.op, "-") == 0) {   
                      fprintf(fptr, "\tpop rbx\n");
-                    generate_assembly_recursive(current_node->data.binaryOp.right, fptr, fptr_var); 
+                    generate_assembly_recursive(current_node->data.binaryOp.right, fptr); 
                     fprintf(fptr, "\tsub rbx, rax\n"); // DLA 24-7 TO PRZECHOWA -17+8 (247)
                     fprintf(fptr, "\tmov [%s], rbx\n",changed_var); //
                     fprintf(fptr, "\tmov rax, rbx\n",changed_var);
                 }
                  if (strcmp(current_node->data.binaryOp.op, "*") == 0) {
                     
-                    generate_assembly_recursive(current_node->data.binaryOp.right, fptr, fptr_var);    
+                    generate_assembly_recursive(current_node->data.binaryOp.right, fptr);    
                     fprintf(fptr, "\tpop rbx\n");
                     fprintf(fptr, "\tmul rbx\n");
                     fprintf(fptr, "\tmov [%s], rax\n",changed_var);
                 }
                 if (strcmp(current_node->data.binaryOp.op, "/") == 0) {
                     
-                    generate_assembly_recursive(current_node->data.binaryOp.right, fptr, fptr_var); 
+                    generate_assembly_recursive(current_node->data.binaryOp.right, fptr); 
                     fprintf(fptr, "\tpush rax\n");
                     fprintf(fptr, "\tpop rbx\n");
-                    generate_assembly_recursive(current_node->data.binaryOp.left, fptr, fptr_var);         
+                    generate_assembly_recursive(current_node->data.binaryOp.left, fptr);         
                     fprintf(fptr, "\txor rdx, rdx\n");
                     fprintf(fptr, "\tdiv rbx\n");
                     fprintf(fptr, "\tmov [%s], rax\n",changed_var);
@@ -212,10 +211,8 @@ bool asm_variable_exists(char *name){
 }
 void generate_assembly(struct Node *programNode) {
     FILE *fptr;
-    FILE *fptr_var;
     fptr = fopen("output.asm", "w+");
-    fptr_var = fopen("asm_vars.asm", "w+");
-    if (fptr == NULL || fptr_var == NULL) {
+    if (fptr == NULL) {
         printf("Error opening file!\n");
         exit(EXIT_FAILURE);
     }
@@ -223,16 +220,14 @@ void generate_assembly(struct Node *programNode) {
         loopstack[i]=0;
     }
     can_change=true;
-    fprintf(fptr_var,"section .data\n");
     fprintf(fptr,"section .text\n");
     fprintf(fptr,"\tglobal _start\n");
     fprintf(fptr,"_start:\n");
     fprintf(fptr,"\tpush rbp\n");
     fprintf(fptr,"\tmov rbp, rsp\n");
     strcpy(variables,"section .data\n");
-    generate_assembly_recursive(programNode,fptr, fptr_var);
+    generate_assembly_recursive(programNode,fptr);
     
     fprintf(fptr, variables);
     fclose(fptr);
-    fclose(fptr_var);
 }

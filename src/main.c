@@ -62,10 +62,8 @@ int main(int argc, char* argv[]){
     
     system("cat output.asm");
     system("nasm -f elf64 output.asm -o output.o");
-    
     system("ld output.o -o output");
-     
-    
+   
     return 0;
 
 
