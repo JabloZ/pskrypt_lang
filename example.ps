@@ -1,0 +1,16 @@
+var fiba=0;
+var fibb=1;
+var sum=1;
+var nth=0;
+while sum lesser_equal 100;
+    var nth=fiba+fibb;
+    fiba=fibb;
+    fibb=nth;        
+    var if_sum_higher=sum+nth;
+    if if_sum_higher greater 100;
+        return sum;
+    end_if;
+    sum=sum+nth;
+end_loop;
+
+return sum;
