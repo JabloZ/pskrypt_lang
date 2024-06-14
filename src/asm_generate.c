@@ -10,12 +10,17 @@ int free_on_loopstack(){
     }
 }
 
+int free_on_ifstack(){
+    for (int i=0;i<20;i++){
+        if (ifstack[i]==0){
+            ifstack[i]=1;
+            return i;
+        }
+    }
+}
 void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fptr_var){
    
-    
     struct Node* current_node=programNode;
-    
-    
     while(current_node!=NULL){
        
         if (current_node->type==semi_node){
@@ -25,46 +30,41 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fpt
             if(can_change==true){
                 can_change=false;
                 strcpy(changed_var,current_node->data.varDecl.varName);
-                fprintf(fptr_var,"\t%s dd %d\n",current_node->data.varDecl.varName, current_node->data.varDecl.varValue);
-                }
+                fprintf(fptr_var,"\t%s dq %d\n",current_node->data.varDecl.varName, current_node->data.varDecl.varValue);
+            }
             bool res=asm_variable_exists(current_node->data.varDecl.varName);
             if (res==false){
-                    sprintf(var_decl,"\t%s dd %d\n",current_node->data.varDecl.varName, current_node->data.varDecl.varValue);
-                    strcat(variables,var_decl);
+                sprintf(var_decl,"\t%s dq %d\n",current_node->data.varDecl.varName, current_node->data.varDecl.varValue);
+                strcat(variables,var_decl);
             }
-            
         }
         if (current_node->type==end_loop_node){
-            
             fprintf(fptr,"\tjmp .loop%d\n",current_node->data.endLoopDecl.loopNum);
-            
             fprintf(fptr,".end%d:\n",current_node->data.endLoopDecl.loopNum);
         }
         if (current_node->type==while_node){
+            printf("\n blad jakis");
+            fflush(stdout);
             int loop_i=free_on_loopstack();
             int i=current_node->data.whileDecl.loopNum;
-            i=i-1;
-            if (i!=-1){
+            printf("\n blad jakis");
+            fflush(stdout);
+            
             fprintf(fptr,"\tjmp .loop%d\n",i);
-            }
             fprintf(fptr,"\tmov rax, 0\n");
             int to_pass=current_node->data.whileDecl.loopNum;
-            printf("\n moj dec: %d",to_pass);
-             fprintf(fptr,".loop%d:\n",to_pass);
+            printf("\nto_pass;%d",to_pass);
+            fprintf(fptr,".loop%d:\n",to_pass);
             if (current_node->data.whileDecl.first->type==var_node){
-                
                 fprintf(fptr,"\tmov rax, [%s]\n",current_node->data.whileDecl.first->data.varDecl.varName);
             }
-            else{
-                
+            else{ 
                 fprintf(fptr,"\tmov rax, %d\n",current_node->data.whileDecl.first->data.intValue);
             }
             if (current_node->data.whileDecl.second->type==var_node){
-                
                 fprintf(fptr,"\tcmp rax, [%s]\n",current_node->data.whileDecl.second->data.varDecl.varName);
             }
             else{
-                
                  fprintf(fptr,"\tcmp rax, %d\n",current_node->data.whileDecl.second->data.intValue);
             }
             if (strcmp(current_node->data.whileDecl.instruction,"greater")==0){
@@ -75,13 +75,66 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fpt
             fprintf(fptr,"\tjle .end%d\n",loop_i);}
             if (strcmp(current_node->data.whileDecl.instruction,"lesser_equal")==0){
             fprintf(fptr,"\tjge .end%d\n",loop_i);}
+            if (strcmp(current_node->data.whileDecl.instruction,"equal")==0){
+            fprintf(fptr,"\tjne .end%d\n",loop_i);}
+             if (strcmp(current_node->data.whileDecl.instruction,"not_equal")==0){
+            fprintf(fptr,"\tje .end%d\n",loop_i);}
             
             
         }
+
+
+        if (current_node->type==end_if_node){
+            
+            fprintf(fptr,".end_if%d:\n",current_node->data.endIfDecl.ifNum);
+        }
+        if (current_node->type==if_node){
+            int if_i=free_on_ifstack();
+            int i=current_node->data.ifDecl.ifNum;
+           
+            
+            //fprintf(fptr,"\tjmp .loop%d\n",i);
+            
+           
+            int to_pass=current_node->data.ifDecl.ifNum;
+            
+            if (current_node->data.ifDecl.first->type==var_node){
+                fprintf(fptr,"\tmov rax, [%s]\n",current_node->data.ifDecl.first->data.varDecl.varName);
+            }
+            else{ 
+                fprintf(fptr,"\tmov rax, %d\n",current_node->data.ifDecl.first->data.intValue);
+            }
+            if (current_node->data.ifDecl.second->type==var_node){
+                fprintf(fptr,"\tcmp rax, [%s]\n",current_node->data.ifDecl.second->data.varDecl.varName);
+            }
+            else{
+                 fprintf(fptr,"\tcmp rax, %d\n",current_node->data.ifDecl.second->data.intValue);
+            }
+            if (strcmp(current_node->data.ifDecl.instruction,"greater")==0){
+            fprintf(fptr,"\tjl .end_if%d\n",if_i);}
+            if (strcmp(current_node->data.ifDecl.instruction,"lesser")==0){
+            fprintf(fptr,"\tjg .end_if%d\n",if_i);}
+            if (strcmp(current_node->data.ifDecl.instruction,"greater_equal")==0){
+            fprintf(fptr,"\tjle .end_if%d\n",if_i);}
+            if (strcmp(current_node->data.ifDecl.instruction,"lesser_equal")==0){
+            fprintf(fptr,"\tjge .end_if%d\n",if_i);}
+            if (strcmp(current_node->data.ifDecl.instruction,"equal")==0){
+            fprintf(fptr,"\tjne .end_if%d\n",if_i);}
+             if (strcmp(current_node->data.ifDecl.instruction,"not_equal")==0){
+            fprintf(fptr,"\tje .end_if%d\n",if_i);}
+            
+            
+        }
+        
         if (current_node->type==return_node){
             fprintf(fptr,"\tmov rax, 60\n");
-            //fprintf(fptr,"\tmov rdi, %d\n",current_node->data.returnDecl.returnValue);
-            fprintf(fptr,"\tmov rdi, [c]\n");
+            if (current_node->data.returnDecl.returnValue->type==var_node){
+                fprintf(fptr,"\tmov rdi, [%s]\n",current_node->data.returnDecl.returnValue->data.varDecl.varName);
+            }
+            else if(current_node->data.returnDecl.returnValue->type==int_node){
+                fprintf(fptr,"\tmov rdi, %d\n",current_node->data.returnDecl.returnValue->data.intValue);
+            }
+            
             fprintf(fptr,"\tsyscall\n");
         }
         if (current_node->type==int_node){
@@ -99,10 +152,9 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fpt
                 if (current_node->data.binaryOp.left == NULL || current_node->data.binaryOp.right == NULL) {
                     exit(EXIT_FAILURE);
                 }
-                    
+                   
                     fprintf(fptr, "\tpush rax\n");
-                    
-
+                     
                 if (strcmp(current_node->data.binaryOp.op, "+") == 0) {
                     generate_assembly_recursive(current_node->data.binaryOp.right, fptr, fptr_var);                    
                     fprintf(fptr, "\tpop rbx\n");
@@ -143,8 +195,6 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr, FILE *fpt
         current_node = next_node;
         
     }
-    
-    
     
 }
 bool asm_variable_exists(char *name){

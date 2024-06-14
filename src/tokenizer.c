@@ -12,7 +12,7 @@ struct Token *tokenize(char* buf, size_t buf_size){
     int digit_buf_i=0;
     char kw_buf[32]="";
     int kw_buf_i=0;
-    char keywords[6][15]={"while","greater","greater_equal","lesser","lesser_equal","end_loop"};
+    char keywords[10][15]={"if","while","greater","greater_equal","lesser","lesser_equal","equal","end_loop","end_if","not_equal"};
     for (int i=0; i<buf_size; i++){
        
         while (isalpha(buf[i]) || buf[i]=='_'){
@@ -51,7 +51,7 @@ struct Token *tokenize(char* buf, size_t buf_size){
         }
         if (strcmp(kw_buf,"")!=0){
             //for (int i=0; i<sizeof())
-            for (int i=0; i<6; i++){
+            for (int i=0; i<(sizeof(keywords)/sizeof(keywords[0])); i++){
                 if (strcmp(kw_buf,keywords[i])){
                         tokens[token_i].type=keyword_tok;
                         strcpy(tokens[token_i].name,kw_buf);

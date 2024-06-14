@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
     tokens=tokenize(buf, strlen(buf));
     
     struct Node* program=parser(tokens);
-    print_all(program);
+    //print_all(program);
     while (tokens[tokens_length].name[0] != '\0') {
         tokens_length++;
     }

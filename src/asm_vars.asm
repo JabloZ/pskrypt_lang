@@ -1,5 +1,10 @@
 section .data
-	b dd 0
-	c dd 0
-	d dd 0
-	c dd 0
+	fiba dq 0
+	fibb dq 0
+	sum dq 0
+	nth dq 0
+	nth dq 0
+	fibb dq 0
+	nth dq 0
+	if_sum_higher dq 0
+	sum dq 0

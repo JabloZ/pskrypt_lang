@@ -12,6 +12,7 @@
 struct Node* program;
 struct Token* tokens;
 int recent_loop;
+int recent_if;
 int cur_tok;
 int iter_loop_num;
 int loop_name;
@@ -26,6 +27,7 @@ struct Var_adr{
     int asm_address;
 };
 int loopstack[20]; //could do something like linked list but its fine for now, no premature optimazation 
+int ifstack[20]; //could do something like linked list but its fine for now, no premature optimazation 
 
 typedef enum{
     null,
@@ -57,7 +59,9 @@ typedef enum{
     binary_op_node,
     semi_node,
     while_node,
-    end_loop_node
+    end_loop_node,
+    if_node, 
+    end_if_node
 } nodeType;
 
 typedef struct Node{
@@ -86,6 +90,15 @@ typedef struct Node{
         struct{
             int loopNum;
         } endLoopDecl;
+        struct{
+            int ifNum;
+            struct Node* first;
+            struct Node* second;
+            char* instruction[32];
+        } ifDecl;
+        struct{
+            int ifNum;
+        } endIfDecl;
     } data;
     struct Node* nextNode;
 }Node;
