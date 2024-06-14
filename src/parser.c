@@ -10,7 +10,7 @@ struct Token* nextToken(){
 struct Node* createNodeEndLoop(){
         struct Token* token=currentToken();
         struct Node* node = (struct Node*)malloc(sizeof(struct Node));
-        //memset(node, 0, sizeof(struct Node));
+        
         node->type=end_loop_node;
         recent_loop--;
         node->data.endLoopDecl.loopNum=recent_loop;
@@ -21,7 +21,7 @@ struct Node* createNodeEndLoop(){
 struct Node* createNodeEndIf(){
         struct Token* token=currentToken();
         struct Node* node = (struct Node*)malloc(sizeof(struct Node));
-        //memset(node, 0, sizeof(struct Node));
+        
         node->type=end_if_node;
         recent_if--;
         node->data.endIfDecl.ifNum=recent_if;
@@ -32,11 +32,8 @@ struct Node* createNodeEndIf(){
 struct Node* createNodeReturn(struct Node* returnVal){
         struct Token* token=currentToken();
         struct Node* node = (struct Node*)malloc(sizeof(struct Node));
-        //memset(node, 0, sizeof(struct Node));
         node->type=return_node;
-        
         node->data.returnDecl.returnValue=returnVal;
-        
         node->nextNode=NULL;    
         return node;
     };
@@ -44,11 +41,9 @@ struct Node* createNodeInt(int val){
     
         struct Token* token=currentToken();
         struct Node* node = (struct Node*)malloc(sizeof(struct Node));
-        
         memset(node, 0, sizeof(struct Node));
         node->type=int_node;
         node->data.intValue=val;
-
         node->nextNode=NULL;
         return node;
     };
@@ -58,23 +53,20 @@ struct Node* createNodeVariable(char* var_name, struct Node* varVal){
         memset(node, 0, sizeof(struct Node));
         node->type=var_node;
         strcpy(node->data.varDecl.varName,var_name);
-        
         node->data.varDecl.varValue=varVal->data.intValue;
         node->nextNode=NULL;
         return node;
     }
 struct Node* createNodeBinOp(char* op,struct Node* left_n,struct Node* right_n){
-    struct Token* token=currentToken();
-    
-    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
-     memset(node, 0, sizeof(struct Node));
-    node->type=binary_op_node;
-    node->data.binaryOp.left=left_n;
-    node->data.binaryOp.right=right_n;
-    strcpy(node->data.binaryOp.op,op);
-    node->nextNode=NULL;
-    
-    return node;
+        struct Token* token=currentToken();
+        struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+        memset(node, 0, sizeof(struct Node));
+        node->type=binary_op_node;
+        node->data.binaryOp.left=left_n;
+        node->data.binaryOp.right=right_n;
+        strcpy(node->data.binaryOp.op,op);
+        node->nextNode=NULL;
+        return node;
        
 }
 struct Node* createWhileLoop(struct Node* first_n, struct Node* second_n, char* name_ins){
@@ -93,18 +85,17 @@ struct Node* createWhileLoop(struct Node* first_n, struct Node* second_n, char* 
     return node;
 }
 struct Node* createNodeIf(struct Node* first_n, struct Node* second_n, char* name_ins){
-    
-    struct Token* token=currentToken();
-    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
-    memset(node, 0, sizeof(struct Node));
-    node->data.ifDecl.ifNum=recent_if;
-    node->type=if_node;
-    node->data.ifDecl.first=first_n;
-    node->data.ifDecl.second=second_n;
-    recent_if++;
-    strcpy(node->data.ifDecl.instruction,name_ins);
-    node->nextNode=NULL;
-    return node;
+        struct Token* token=currentToken();
+        struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+        memset(node, 0, sizeof(struct Node));
+        node->data.ifDecl.ifNum=recent_if;
+        node->type=if_node;
+        node->data.ifDecl.first=first_n;
+        node->data.ifDecl.second=second_n;
+        recent_if++;
+        strcpy(node->data.ifDecl.instruction,name_ins);
+        node->nextNode=NULL;
+        return node;
 }
 
 struct Node* variable_exists(char* token_name){ // to replace with map
@@ -113,19 +104,15 @@ struct Node* variable_exists(char* token_name){ // to replace with map
     struct Node* node_checked=program;
     while(node_checked!=NULL){
         if (strcmp(node_checked->data.varDecl.varName,token_name)==0){
-            
             return node_checked;
         }
         node_checked=node_checked->nextNode;
-
     }
-    
     return returned_node;
 }
 
 struct Node* numberStatement(){
         struct Token* token=currentToken();
-        
         if (token->type==number){
             return createNodeInt(atoi(token->name));
         }
@@ -139,7 +126,9 @@ struct Node* numberStatement(){
             }
         }
         exit(EXIT_FAILURE);    
-    };
+}
+
+
 struct Node* variableStatement(){
         struct Token* token=nextToken();
         char name[32]="";
@@ -147,7 +136,7 @@ struct Node* variableStatement(){
         struct Node* node_int=createNodeInt(0);
         return createNodeVariable(name, node_int);
         
-    };
+}
 
 struct Node* binaryOperation(){
         struct Token* token=currentToken();
@@ -174,13 +163,14 @@ struct Node* binaryOperation(){
             node->nextNode=NULL;
             return node;
 }
+
 struct Node* whileLoopStatement(){
-    printf("\nwtf?");
+    
     struct Token* token=nextToken();
     struct Node* num_or_var=numberStatement();
 
         if (num_or_var->type==int_node || num_or_var->type==var_node){
-             printf("\nwtf?");
+            
             token=nextToken();
             if (strcmp(token->name,"greater")==0 || strcmp(token->name,"greater_equal")==0 || strcmp(token->name,"lesser")==0 || strcmp(token->name,"lesser_equal")==0 || strcmp(token->name,"equal")==0 || strcmp(token->name,"not_equal")==0){
                 char ins_name[32];
@@ -225,7 +215,7 @@ struct Node* returnStatement(){
         struct Token* token=nextToken();
         struct Node* value = numberStatement();
         return createNodeReturn(value);
-    };
+}
 
 struct Node* parseKeywords(){
         struct Token* token=currentToken();
@@ -264,16 +254,8 @@ struct Node* parseKeywords(){
             return node;
         }
 
-    };
-
-void resetNode(struct Node* node) {
-    if (node != NULL) {
-        
-        memset(&node->data, 0, sizeof(node->data));
-        
-    }
 }
- 
+
 struct Node* parser(struct Token *tokens){
    
     struct Token* token=currentToken();
@@ -282,9 +264,7 @@ struct Node* parser(struct Token *tokens){
     struct Node* current=NULL;
     node_count=0;
     while (token->type!=0){
-        
         struct Node* kw=parseKeywords();
-        
         if (kw){
             node_count++;
             if (program==NULL){
@@ -297,11 +277,9 @@ struct Node* parser(struct Token *tokens){
              
             }
         }
-           //resetNode(current);
         token=nextToken();
 
     }
-    printf("node_count: %d",node_count);
     return program;
 }
 

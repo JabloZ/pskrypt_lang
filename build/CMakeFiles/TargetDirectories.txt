@@ -1,3 +1,0 @@
-/root/pskrypt/build/CMakeFiles/rebuild_cache.dir
-/root/pskrypt/build/CMakeFiles/edit_cache.dir
-/root/pskrypt/build/CMakeFiles/myprogram.dir

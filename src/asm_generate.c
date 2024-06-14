@@ -42,17 +42,15 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr){
             fprintf(fptr,".end%d:\n",current_node->data.endLoopDecl.loopNum);
         }
         if (current_node->type==while_node){
-            printf("\n blad jakis");
-            fflush(stdout);
+            
             int loop_i=free_on_loopstack();
             int i=current_node->data.whileDecl.loopNum;
-            printf("\n blad jakis");
-            fflush(stdout);
+            
             
             fprintf(fptr,"\tjmp .loop%d\n",i);
             fprintf(fptr,"\tmov rax, 0\n");
             int to_pass=current_node->data.whileDecl.loopNum;
-            printf("\nto_pass;%d",to_pass);
+           
             fprintf(fptr,".loop%d:\n",to_pass);
             if (current_node->data.whileDecl.first->type==var_node){
                 fprintf(fptr,"\tmov rax, [%s]\n",current_node->data.whileDecl.first->data.varDecl.varName);
@@ -198,7 +196,7 @@ void generate_assembly_recursive(struct Node *programNode, FILE *fptr){
 }
 bool asm_variable_exists(char *name){
     for (int i=0; i<100; i++){
-        printf(" %d ",i);
+       
         if(strcmp(name,variables_d[i])==0){
             return true;
         }
@@ -213,7 +211,7 @@ void generate_assembly(struct Node *programNode) {
     FILE *fptr;
     fptr = fopen("output.asm", "w+");
     if (fptr == NULL) {
-        printf("Error opening file!\n");
+        
         exit(EXIT_FAILURE);
     }
     for (int i=0; i<20; i++){

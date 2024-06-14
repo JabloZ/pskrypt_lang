@@ -1,1 +1,0 @@
-/usr/bin/cc    CMakeFiles/myprogram.dir/src/main.c.o CMakeFiles/myprogram.dir/src/tokenizer.c.o CMakeFiles/myprogram.dir/src/asm_generate.c.o CMakeFiles/myprogram.dir/src/parser.c.o  -o myprogram 

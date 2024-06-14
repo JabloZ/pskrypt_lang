@@ -102,11 +102,5 @@ struct Token *tokenize(char* buf, size_t buf_size){
         memset(kw_buf,0,strlen(kw_buf));
         
     }
-    for (int k=0; k<30; k++){
-        if (tokens[k].type==int_lit && tokens[k].text==""){
-            strcpy(tokens[k].text,"0");}
-        printf("|%d|-|%s|-|%s|\n",tokens[k].type, tokens[k].name, tokens[k].text);
-    }
-   
     return tokens;
 }

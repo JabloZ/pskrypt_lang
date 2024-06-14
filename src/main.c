@@ -13,9 +13,6 @@ struct Token* tokenize(char* buf, size_t buf_size);
 void generate_assembly(struct Node* programNode);
 struct Node* parser(struct Token *tokens);
 
-
-//oosbna funkcje do parsowania jezyka
-
 int main(int argc, char* argv[]){  
     
     tokens=malloc(100*sizeof(struct Token));
@@ -42,25 +39,18 @@ int main(int argc, char* argv[]){
         }
     }
     fclose(fptr);
-    
-   /*struct Token tokens[]={
-        {int_lit,"b","132"},
-        {int_lit,"c","132"},
-        {_return,NULL,"123"}
-   };*/
     buf[strlen(buf)]='\0';
     size_t tokens_length = 0;
     tokens=tokenize(buf, strlen(buf));
     
     struct Node* program=parser(tokens);
-    //print_all(program);
     while (tokens[tokens_length].name[0] != '\0') {
         tokens_length++;
     }
     
-    generate_assembly(program); //causes segfault for buffer for some reason ALE CHYBA DLATEGO ZE TOKENS PUSTE JEST
+    generate_assembly(program); 
     
-    system("cat output.asm");
+    //system("cat output.asm");
     system("nasm -f elf64 output.asm -o output.o");
     system("ld output.o -o output");
    
